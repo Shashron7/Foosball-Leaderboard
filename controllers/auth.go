@@ -53,44 +53,39 @@ func SignUp(c *gin.Context) {
 // login function 
 
 func Login(c *gin.Context) {
-	var input models.User
-	if err:= c.ShouldBindJSON(&input); err!=nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error" : "Invalid input"})
-		return 
-	}
+	var input models.User 
+    if err := c.ShouldBindJSON(&input); err != nil { 
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"}) 
+        return  
+    } 
+ 
+    // Check for admin login FIRST, before any database operations
+    if input.Username == "admin" && input.Password == "shash" { 
+        token, err := utils.GenerateToken("admin", true) 
+        if err != nil { 
+            c.JSON(http.StatusInternalServerError, gin.H{"error": "Token generation failed"}) 
+            return 
+        }
+        c.JSON(http.StatusOK, gin.H{"token": token, "is_admin": true}) 
+        return 
+    } 
+ 
+    // Only reach this code if not admin
+    username := strings.ToLower(input.Username) 
+    password := input.Password 
+    var user models.User 
+ 
+    if err := database.DB.Where("username = ?", username).First(&user).Error; err != nil { 
+        c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"}) 
+        return 
+    }
 
-	username := strings.ToLower(input.Username)
-	password := input.Password
-	
-
-	// admin login (hardcoded)
-	if username == "admin" && password == "shash" {
-		token, err := utils.GenerateToken("admin", true)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Token generation failed"})
-			return
-		}
-		c.JSON(http.StatusOK, gin.H{"token": token, "is_admin": true})
-		return
-	}
-
-	// Player login 
-
-	var user models.User
-
-	if err := database.DB.Where("username = ?", username).First(&user).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
-		return
-	}
-
-	// Compare password
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Incorrect password"})
 		return
 	}
-	
-	// if password is correct , generate token 
+
 	token, err := utils.GenerateToken(user.Username, false)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Token generation failed"})
@@ -98,8 +93,4 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"token": token, "is_admin": false})
-
-
 }
-
-

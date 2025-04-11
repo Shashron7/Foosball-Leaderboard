@@ -10,12 +10,13 @@ import (
 
 func main() {
 
+	// load env file 
 	godotenv.Load()
 	r := gin.Default()
 	database.ConnectDatabase()
 
 	
-
+	// routes package to set up routes
 	routes.SetupRoutes(r)
 
 	r.Run(":8080") // Run on port 8080

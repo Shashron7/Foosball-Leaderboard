@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func UserAuthMiddleware() gin.HandlerFunc {
+func AdminAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
@@ -19,15 +19,15 @@ func UserAuthMiddleware() gin.HandlerFunc {
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 
 		claims, err := utils.ValidateToken(tokenString)
-		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired token"})
+		if err != nil || !claims.IsAdmin {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized: admin access required"})
 			c.Abort()
 			return
 		}
 
-		// Set claims in context if needed later
+		// Optional: set user info in context if needed later
 		c.Set("username", claims.Username)
-		c.Set("is_admin", claims.IsAdmin)
+		c.Set("is_admin", true)
 
 		c.Next()
 	}

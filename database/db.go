@@ -1,7 +1,7 @@
 package database
 
 import (
-	"gorm.io/driver/sqlite"
+	sqlite "github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 	"foosball-leaderboard/models"
 )
