@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.my-custom-background {
+  background-image: url('./download.png');
+  background-repeat: repeat;/* Apply Tailwind utility */
+}

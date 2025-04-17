@@ -14,6 +14,7 @@ func SetupRoutes(router *gin.Engine) {
 	api.POST("/signup", controllers.SignUp)
 	api.POST("/login", controllers.Login)
 
+	// protected routes 
 	api.GET("/leaderboard",middleware.UserAuthMiddleware(),controllers.GetLeaderboard)
 
 	adminRoutes := router.Group("/admin")
