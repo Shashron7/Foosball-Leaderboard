@@ -19,7 +19,7 @@ func main() {
 
 	// Allow frontend to talk to backend
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"}, // your React dev server
+		AllowOrigins:     []string{"https://foosball-leaderboard.vercel.app/"}, // your React dev server
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
