@@ -19,7 +19,7 @@ export default function LeaderboardPage() {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const res = await axios.get("http://localhost:8080/api/leaderboard", {
+        const res = await axios.get("https://foosball-leaderboard.onrender.com/api/leaderboard", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setPlayers(res.data);

@@ -12,7 +12,7 @@ export default function LoginPage({ onLogin }) {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:8080/api/login", {
+      const res = await axios.post("https://foosball-leaderboard.onrender.com/api/login", {
         username,
         password,
       });

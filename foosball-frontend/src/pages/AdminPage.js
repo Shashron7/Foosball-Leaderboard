@@ -18,7 +18,7 @@ const AdminPage = () => {
   const fetchPlayers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:8080/api/leaderboard', {
+      const res = await axios.get('https://foosball-leaderboard.onrender.com/api/leaderboard', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -40,7 +40,7 @@ const AdminPage = () => {
   const increaseScore = async (username) => {
     try {
       await axios.post(
-        'http://localhost:8080/admin/increase-score',
+        'https://foosball-leaderboard.onrender.com/admin/increase-score',
         { username },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -65,7 +65,7 @@ const AdminPage = () => {
     setLoading(true);
     try {
       await axios.post(
-        'http://localhost:8080/admin/clear-leaderboard',
+        'https://foosball-leaderboard.onrender.com/admin/clear-leaderboard',
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
