@@ -6,7 +6,6 @@ import (
 	"foosball-leaderboard/database"
 	"github.com/joho/godotenv"
 	"github.com/gin-contrib/cors"
-	"time"
 
 )
 
