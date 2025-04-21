@@ -14,7 +14,7 @@ export default function SignupPage() {
     setError("");
 
     try {
-      await axios.post("https://foosball-leaderboard-npb3bigcn-shashron7s-projects.vercel.app/api/signup", { username, password });
+      await axios.post("https://foosball-leaderboard.onrender.com/api/signup", { username, password });
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.error || "Signup failed");
