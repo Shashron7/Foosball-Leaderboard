@@ -14,7 +14,7 @@ export default function SignupPage() {
     setError("");
 
     try {
-      await axios.post("http://localhost:8080/api/signup", { username, password });
+      await axios.post("https://foosball-leaderboard.onrender.com/api/signup", { username, password });
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.error || "Signup failed");
